@@ -51,7 +51,31 @@ class EventPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can bulk delete.
+     */
+    public function deleteAny(User $user): bool
+    {
+        return $user->can('delete_any_event');
+    }
+
+    /**
+     * Determine whether the user can permanently delete.
+     */
+    public function forceDelete(User $user, Event $event): bool
+    {
+        return $user->can('force_delete_event');
+    }
+
+    /**
+     * Determine whether the user can permanently bulk delete.
+     */
+    public function forceDeleteAny(User $user): bool
+    {
+        return $user->can('force_delete_any_event');
+    }
+
+    /**
+     * Determine whether the user can restore.
      */
     public function restore(User $user, Event $event): bool
     {
@@ -59,16 +83,35 @@ class EventPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can bulk restore.
      */
-    public function forceDelete(User $user, Event $event): bool
+    public function restoreAny(User $user): bool
     {
-        return $user->can('force_delete_event');
+        return $user->can('restore_any_event');
     }
 
+    /**
+     * Determine whether the user can replicate.
+     */
+    public function replicate(User $user, Event $event): bool
+    {
+        return $user->can('replicate_event');
+    }
+
+    /**
+     * Determine whether the user can reorder.
+     */
+    public function reorder(User $user): bool
+    {
+        return $user->can('reorder_event');
+    }
+
+    /**
+     * Determine whether the user can export the event.
+     */
     public function export(User $user, Event $event): bool
     {
-        // Hanya admin yang boleh export
         return $user->can('export_event');
     }
+
 }

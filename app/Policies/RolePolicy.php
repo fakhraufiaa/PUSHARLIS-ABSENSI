@@ -10,7 +10,6 @@ class RolePolicy
 {
     use HandlesAuthorization;
 
-
     /**
      * Determine whether the user can view any models.
      */
@@ -105,7 +104,5 @@ class RolePolicy
     public function reorder(User $user): bool
     {
         return $user->can('{{ Reorder }}');
-
     }
-
 }

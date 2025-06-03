@@ -19,14 +19,11 @@ use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
 
-
 class RoleResource extends Resource implements HasShieldPermissions
 {
     use HasShieldFormComponents;
 
     protected static ?string $recordTitleAttribute = 'name';
-
-    protected static ?string $navigationGroup = 'Access';
 
     public static function getPermissionPrefixes(): array
     {
@@ -173,7 +170,9 @@ class RoleResource extends Resource implements HasShieldPermissions
 
     public static function getNavigationGroup(): ?string
     {
-        return static::$navigationGroup;
+        return Utils::isResourceNavigationGroupEnabled()
+            ? __('filament-shield::filament-shield.nav.group')
+            : '';
     }
 
     public static function getNavigationLabel(): string

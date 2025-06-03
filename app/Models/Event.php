@@ -15,6 +15,7 @@ class Event extends Model
         'place',
         'is_attendance_enabled',
         'signature_admin',
+        'slug',
     ];
 
     public function attendances()

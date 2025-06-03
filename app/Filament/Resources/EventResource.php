@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Coolsam\SignaturePad\Forms\Components\Fields\SignaturePad;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Dompdf\Dompdf;
+use Illuminate\Support\Str;
+use Filament\Forms\Set;
 
 class EventResource extends Resource
 {
@@ -29,6 +31,12 @@ class EventResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('agenda')
                     ->label('Agenda/Acara')
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(function (string $operation, $state, Set $set) {
+                    $slugValue = Str::slug($state ?? '');
+                    if ($operation === 'create') {
+                        $set('slug', $slugValue); // <--  memperbarui field 'slug'
+                    }})
                     ->required(),
                 Forms\Components\DatePicker::make('date')
                     ->label('Hari/Tanggal')
@@ -42,6 +50,10 @@ class EventResource extends Resource
                 Forms\Components\Toggle::make('is_attendance_enabled')
                     ->label('Aktifkan Absen')
                     ->default(true),
+                Forms\Components\TextInput::make('slug')
+                    // ->default(fn (Event $record) => $record->slug ?? Str::slug($record->agenda ?? ''))
+                    ->unique(Event::class, 'slug', ignoreRecord: true)
+                    ->helperText('Slug akan otomatis dibuat dari agenda acara.'),
                 // Tambahkan ini untuk signature admin:
                 \Coolsam\SignaturePad\Forms\Components\Fields\SignaturePad::make('signature_admin')
                     ->label('Tanda Tangan Penanggung Jawab')
@@ -53,6 +65,7 @@ class EventResource extends Resource
                     ->strokeDotSize(2.0)
                     ->hideDownloadButtons()
                     ->columnSpan(2),
+
             ]);
     }
 
@@ -71,6 +84,14 @@ class EventResource extends Resource
                 Tables\Columns\TextColumn::make('place')
                     ->label('Tempat')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('slug')
+                    ->label('Link Absen')
+                    ->formatStateUsing(fn ($state, $record) =>
+                        '<a href="' . route('event.attend.show', ['slug' => $state]) . '" class="text-primary-600 underline" target="_blank">' . e($state) . '</a>'
+                    )
+                    ->html()
+                    ->alignCenter(),
+                    // ->visible(fn (Event $record) => auth()->user()->can('view', $record)),
             ])
             ->filters([
                 Tables\Filters\Filter::make('attendance_enabled')

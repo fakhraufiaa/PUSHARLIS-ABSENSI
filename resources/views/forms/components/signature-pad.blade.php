@@ -1,4 +1,4 @@
-
+{{--
 <div>
     <canvas id="signature-canvas-{{ $getId() }}" style="border:1px solid #ccc; width:100%; height:150px;"></canvas>
     <button type="button" onclick="clearSignature{{ $getId() }}()">Clear</button>
@@ -17,4 +17,4 @@
         input{{ $getId() }}.value = signaturePad{{ $getId() }}.toDataURL();
         @this.set('{{ $getStatePath() }}', input{{ $getId() }}.value);
     });
-</script>
+</script> --}}

@@ -10,15 +10,15 @@ class CreateEvent extends CreateRecord
 {
     protected static string $resource = EventResource::class;
 
-    protected function getCreatedNotification(): ?\Filament\Notifications\Notification
-    {
-        $event = $this->record;
-        $link = route('attendance.form', ['event' => $event->id]);
+    // protected function getCreatedNotification(): ?\Filament\Notifications\Notification
+    // {
+    //     $event = $this->record;
+    //     $link = route('attendance.form', ['event' => $event->id]);
 
-        return \Filament\Notifications\Notification::make()
-            ->title('Event berhasil dibuat!')
-            ->body("Bagikan link absensi ke peserta: <a href=\"{$link}\" target=\"_blank\">{$link}</a>")
-            ->success()
-            ->persistent();
-    }
+    //     return \Filament\Notifications\Notification::make()
+    //         ->title('Event berhasil dibuat!')
+    //         ->body("Bagikan link absensi ke peserta: <a href=\"{$link}\" target=\"_blank\">{$link}</a>")
+    //         ->success()
+    //         ->persistent();
+    // }
 }

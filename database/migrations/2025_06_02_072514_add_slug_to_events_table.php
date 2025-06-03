@@ -11,14 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attendances', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('position');
-            $table->string('email');
-            $table->string('phone');
-            $table->longText('signature');
-            $table->timestamps();
+        Schema::table('events', function (Blueprint $table) {
+           $table->string('slug')->unique()->nullable();
         });
     }
 
@@ -27,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attendances');
+        Schema::table('events', function (Blueprint $table) {
+            $table->dropColumn('slug');
+        });
     }
 };
