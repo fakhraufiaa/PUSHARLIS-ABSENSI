@@ -76,6 +76,7 @@ class AdminPanelProvider extends PanelProvider
                     ->icon('heroicon-o-user')
                     ->collapsible(false),
             ])
+            ->brandName('Attendance Management')
             ->topNavigation()
             ->sidebarCollapsibleOnDesktop();
         }

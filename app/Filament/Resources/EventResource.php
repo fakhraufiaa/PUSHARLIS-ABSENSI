@@ -55,16 +55,16 @@ class EventResource extends Resource
                     ->unique(Event::class, 'slug', ignoreRecord: true)
                     ->helperText('Slug akan otomatis dibuat dari agenda acara.'),
                 // Tambahkan ini untuk signature admin:
-                \Coolsam\SignaturePad\Forms\Components\Fields\SignaturePad::make('signature_admin')
-                    ->label('Tanda Tangan Penanggung Jawab')
-                    ->backgroundColor('white')
-                    ->penColor('black')
-                    ->strokeMinDistance(2.0)
-                    ->strokeMaxWidth(2.5)
-                    ->strokeMinWidth(1.0)
-                    ->strokeDotSize(2.0)
-                    ->hideDownloadButtons()
-                    ->columnSpan(2),
+                // \Coolsam\SignaturePad\Forms\Components\Fields\SignaturePad::make('signature_admin')
+                //     ->label('Tanda Tangan Penanggung Jawab')
+                //     ->backgroundColor('white')
+                //     ->penColor('black')
+                //     ->strokeMinDistance(2.0)
+                //     ->strokeMaxWidth(2.5)
+                //     ->strokeMinWidth(1.0)
+                //     ->strokeDotSize(2.0)
+                //     ->hideDownloadButtons()
+                //     ->columnSpan(2),
 
             ]);
     }
@@ -196,19 +196,19 @@ class EventResource extends Resource
                     }
 
                     // SET SIGNATURE ADMIN (setelah cloneRow, untuk tabel baru di bawahnya)
-                    $adminSignaturePath = null;
-                    if ($event->signature_admin && str_starts_with($event->signature_admin, 'data:image/png')) {
-                        $adminSignatureData = explode(',', $event->signature_admin)[1];
-                        $adminSignaturePath = storage_path("app/public/signature_admin_{$event->id}.png");
-                        file_put_contents($adminSignaturePath, base64_decode($adminSignatureData));
-                        $phpWord->setImageValue('signature_admin', [
-                            'path' => $adminSignaturePath,
-                            'width' => 350,
-                            'height' => 500,
-                        ]);
-                    } else {
-                        $phpWord->setValue('signature_admin', '');
-                    }
+                    // $adminSignaturePath = null;
+                    // if ($event->signature_admin && str_starts_with($event->signature_admin, 'data:image/png')) {
+                    //     $adminSignatureData = explode(',', $event->signature_admin)[1];
+                    //     $adminSignaturePath = storage_path("app/public/signature_admin_{$event->id}.png");
+                    //     file_put_contents($adminSignaturePath, base64_decode($adminSignatureData));
+                    //     $phpWord->setImageValue('signature_admin', [
+                    //         'path' => $adminSignaturePath,
+                    //         'width' => 350,
+                    //         'height' => 500,
+                    //     ]);
+                    // } else {
+                    //     $phpWord->setValue('signature_admin', '');
+                    // }
 
                     // Simpan docx sementara
                     $docxPath = storage_path('app/public/'.$event->agenda.'_'. $event->date.'.docx');
