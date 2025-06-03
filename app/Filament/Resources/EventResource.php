@@ -72,6 +72,7 @@ class EventResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->poll('5s')
             ->columns([
                 Tables\Columns\TextColumn::make('agenda')
                     ->label('Agenda/Acara')
@@ -183,7 +184,8 @@ class EventResource extends Resource
                         $signaturePath = null;
                         if ($attendance->signature && str_starts_with($attendance->signature, 'data:image/png')) {
                             $signatureData = explode(',', $attendance->signature)[1];
-                            $signaturePath = storage_path("app/public/signature_{$attendance->id}.png");
+                            $signatureFileName = "signature_{$attendance->id}_" . uniqid() . ".png";
+                            $signaturePath = storage_path('app/public/' . $signatureFileName); // Path lengkap
                             file_put_contents($signaturePath, base64_decode($signatureData));
                             $phpWord->setImageValue("signature#{$row}", [
                                 'path' => $signaturePath,
@@ -251,7 +253,8 @@ class EventResource extends Resource
                 })
                 ->visible(fn ($record) => auth()->user()->can('export', $record))
                 ->requiresConfirmation()
-                ->color('success'),
+                ->color('success')
+                ->visible(fn ($record) => \App\Models\Attendance::where('event_id', $record->id)->exists()),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
