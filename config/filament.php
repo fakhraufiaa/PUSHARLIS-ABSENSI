@@ -1,8 +1,7 @@
 <?php
 
 return [
-    'title' => 'PUSHARLIS ABSENSI',
-    'brand' => 'PUSHARLIS ABSENSI',
+
 
     /*
     |--------------------------------------------------------------------------

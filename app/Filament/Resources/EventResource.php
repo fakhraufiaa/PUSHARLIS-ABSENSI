@@ -193,8 +193,17 @@ class EventResource extends Resource
                                 'height' => 250,
                             ]);
                         } else {
-                            $phpWord->setValue("signature#{$row}", '');
+                            $phpWord->setImageValue("signature#{$row}", [
+                                'path' => $signaturePath ?? '',
+                                'width' => 200,
+                                'height' => 250,
+                            ]);
                         }
+                        // hapus file siganature sementara jika ada
+                        if ($signaturePath && file_exists($signaturePath)) {
+                            unlink($signaturePath);
+                        }
+
                     }
 
                     // SET SIGNATURE ADMIN (setelah cloneRow, untuk tabel baru di bawahnya)
@@ -212,34 +221,22 @@ class EventResource extends Resource
                     //     $phpWord->setValue('signature_admin', '');
                     // }
 
+                    // Nama file tanpa spasi dan slash
+                    $baseName = str_replace([' ', '/'], '_', $event->agenda) . '_' . $event->date;
+
                     // Simpan docx sementara
-                    $docxPath = storage_path('app/public/'.$event->agenda.'_'. $event->date.'.docx');
+                    $docxPath = storage_path('app/public/' . $baseName . '.docx');
                     $phpWord->saveAs($docxPath);
 
-                    // Convert docx ke PDF (via HTML)
-                    // $phpWordObj = \PhpOffice\PhpWord\IOFactory::load($docxPath);
-                    // $htmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWordObj, 'HTML');
-                    // $htmlPath = storage_path('app/public/absensi_event_'.$event->id.'.html');
-                    // $htmlWriter->save($htmlPath);
-
-                    // $dompdf = new \Dompdf\Dompdf();
-                    // $dompdf->loadHtml(file_get_contents($htmlPath));
-                    // $dompdf->setPaper('A4', 'portrait');
-                    // $dompdf->render();
-                    // $pdfOutput = $dompdf->output();
-
-                    // Nama file PDF sesuai agenda dan date
-                    $filename = str_replace([' ', '/'], '_', $event->agenda) . '_' . $event->date . '.pdf';
+                    // Nama file PDF
+                    $filename = $baseName . '.pdf';
                     $pdfPath = storage_path('app/public/' . $filename);
 
                     // Pastikan LibreOffice terinstall di server
                     $command = 'soffice --headless --convert-to pdf --outdir ' . escapeshellarg(dirname($pdfPath)) . ' ' . escapeshellarg($docxPath);
-                    exec($command);
-
                     exec($command, $output, $return_var);
+
                     if ($return_var !== 0 || !file_exists($pdfPath)) {
-                        // Handle error: log, return error response, etc.
-                        // Misalnya:
                         return response()->json(['error' => 'Failed to convert document to PDF.'], 500);
                     }
 
