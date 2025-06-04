@@ -14,7 +14,7 @@
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "false",
-        "APP_URL": "https://pusharlis-absensi-git-master-fakhra-aufia-s-projects.vercel.app/",
+        "APP_URL": "https://pusharlis-absensi.vercel.app/",
         "APP_KEY": "base64:WMSY2SSU0G1EuCRqMUNDjFAHuJFcq5xcCkFvg771gsk=",
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
