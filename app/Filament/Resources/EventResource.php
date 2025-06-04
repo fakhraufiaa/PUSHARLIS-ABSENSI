@@ -246,6 +246,7 @@ class EventResource extends Resource
                     }
 
                     // File PDF akan ada di $pdfPath
+                    // download pdf
                     return response()->download($pdfPath, $filename)->deleteFileAfterSend(true);
                 })
                 ->visible(fn ($record) => auth()->user()->can('export', $record))
