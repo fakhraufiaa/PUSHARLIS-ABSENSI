@@ -26,9 +26,9 @@
         "LOG_CHANNEL": "stderr",
         "SESSION_DRIVER": "cookie",
         "DB_CONNECTION": "mysql",
-        "DB_HOST": "4gg.h.filess.io",
+        "DB_HOST": "dyj1i.h.filess.io",
         "DB_PORT": "3306",
-        "DB_DATABASE": "daftarHadir",
-        "DB_USERNAME": "root"
+        "DB_DATABASE": "daftarHadir_cowboymove",
+        "DB_USERNAME": "daftarHadir_cowboymove"
     }
 }

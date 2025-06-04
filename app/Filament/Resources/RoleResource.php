@@ -25,10 +25,6 @@ class RoleResource extends Resource implements HasShieldPermissions
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $navigationGroup = 'Access';
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
     public static function getPermissionPrefixes(): array
     {
         return [

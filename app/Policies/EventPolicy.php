@@ -105,13 +105,4 @@ class EventPolicy
     {
         return $user->can('reorder_event');
     }
-
-    /**
-     * Determine whether the user can export the event.
-     */
-    public function export(User $user, Event $event): bool
-    {
-        return $user->can('export_event');
-    }
-
 }
